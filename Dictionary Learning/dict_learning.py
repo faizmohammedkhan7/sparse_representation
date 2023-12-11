@@ -32,3 +32,37 @@ D
 
 # proof of X = DR
 np.dot(R, D)
+
+import matplotlib.pyplot as plt
+
+# Reconstructing the matrix X using D and R
+reconstructed_X = np.dot(R, D)
+
+# Plotting original X matrix
+plt.figure(figsize=(8, 4))
+plt.subplot(1, 2, 1)
+plt.title('Original X Matrix')
+plt.imshow(X, cmap='viridis', interpolation='nearest')
+plt.colorbar()
+
+# Plotting reconstructed matrix
+plt.subplot(1, 2, 2)
+plt.title('Reconstructed X Matrix')
+plt.imshow(reconstructed_X, cmap='viridis', interpolation='nearest')
+plt.colorbar()
+
+plt.tight_layout()
+#plt.show()
+
+from scipy.sparse import csc_matrix
+from scipy.sparse import spy
+
+# Convert R to a sparse matrix (assuming it's a dense matrix)
+sparse_R = csc_matrix(R)
+
+# Plotting the sparsity pattern of the sparse matrix R
+plt.figure(figsize=(6, 4))
+plt.title('Sparsity Pattern of Matrix R')
+spy(sparse_R, markersize=5)
+plt.show()
+
