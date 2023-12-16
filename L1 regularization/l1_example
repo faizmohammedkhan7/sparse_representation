@@ -1,0 +1,41 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.linear_model import Lasso
+
+# Generating a random signal
+np.random.seed(55)
+signal_length = 100
+time = np.linspace(0, 1, signal_length, endpoint=False)
+random_signal = np.random.randn(signal_length)
+
+# Generating a random matrix with noise
+np.random.seed(60)
+random_matrix = np.random.randn(signal_length, signal_length)
+
+# Adding some noise to the matrix
+random_matrix += 0.1 * np.random.randn(signal_length, signal_length)
+
+# Applying L1 regularization (Lasso) to induce sparsity
+lasso = Lasso(alpha=0.1)
+lasso.fit(random_matrix, random_signal)
+sparse_signal = lasso.coef_
+
+# Plotting the original and sparse signal
+plt.figure(figsize=(10, 6))
+
+plt.subplot(2, 1, 1)
+plt.plot(time, random_signal, label='Original Signal')
+plt.title('Original Random Signal')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.legend()
+
+plt.subplot(2, 1, 2)
+plt.stem(sparse_signal, markerfmt='bo', linefmt='b-', basefmt=' ', label='Sparse Signal')
+plt.title('Sparse Signal (L1 Regularization)')
+plt.xlabel('Index')
+plt.ylabel('Amplitude')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
